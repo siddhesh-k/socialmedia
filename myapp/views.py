@@ -8,6 +8,7 @@ def home(request):
 def signIn(request):
     return render(request,'sign_in.html')
 
+
 def create(request):
     if request.method == "POST":
         username = request.POST['name']
