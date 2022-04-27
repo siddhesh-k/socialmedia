@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Post</title>
+</head>
+<body>
+    <form onsubmit="create_post" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <input type="text" name="title" placeholder="title" required>
+        </div>
+        <div>
+            <input type="file" name="poster" required>
+        </div>
+        <div>
+            <input type="text" name="description" placeholder="description" required>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
