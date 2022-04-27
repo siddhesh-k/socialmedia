@@ -30,28 +30,12 @@ def add_post(request):
         try:
             user= User.objects.get(pk=1)
             obj = Posts.objects.create(title=title, description=description,poster=poster,created_by=user)
-            # obj.tags.set([tags])
+
             obj.save()
         except Exception as e:
             print(e)
             return redirect('/')
-        def extract_hashtags(text):
 
-            # initializing hashtag_list variable
-            hashtag_list = []
-
-            # splitting the text into words
-            for word in text.split():
-
-                # checking the first character of every word
-                if word[0] == '#':
-                    # adding the word to the hashtag_list
-                    hashtag_list.append(word[1:])
-
-            # printing the hashtag_list
-            print("The hashtags in \"" + text + "\" are :")
-            for hashtag in hashtag_list:
-                print(hashtag)
 
         return redirect('/')
     return render(request,'add_post.html')
