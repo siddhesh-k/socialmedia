@@ -9,30 +9,30 @@
 </head>
 <body>
 
-<form action="create" method="post">
+<form action="create_user" method="post" >
     {% csrf_token %}
     <div style="text-align:center; padding:4rem">
 
         <div class="mb-3">
-            <label for="name" class="form-lable">Name</label>
-            <input type="text" name="name" id="name" class="form-control">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" id="username" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp">
+            <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" required>
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
-            <label for="age" class="form-lable">Age</label>
-            <input type="number" name="age" id="age" class="form-control">
+            <label for="first_name" class="form-label">Firstname</label>
+            <input type="text" name="first_name" id="first_name" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="address" class="form-lable">Address</label>
-            <textarea name="address" id="address" class="form-control"></textarea>
+            <label for="last_name" class="form-label">Lastname</label>
+            <input type="text" name="last_name" id="last_name" class="form-control" required>
         </div>
         <div class="mb-3" >
             <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" id="password">
+            <input type="password" name="password" class="form-control" id="password" required>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 </div>
