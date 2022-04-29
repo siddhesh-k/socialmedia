@@ -51,7 +51,7 @@ def add_post(request):
             # printing the hashtag_list
             print("The hashtags in \"" + text + "\" are :")
             for hashtag in hashtag_list:
-                print(hashtag)
+                # print(hashtag)
 
         return redirect('/')
     return render(request,'add_post.html')
