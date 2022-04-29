@@ -55,3 +55,10 @@ def add_post(request):
 
         return redirect('/')
     return render(request,'add_post.html')
+
+
+def show_posts(request):
+    posts = Posts.objects.all().order_by('-created_at')
+    print(posts[0].poster)
+    context ={"posts":posts}
+    return  render(request,'show_posts.html', context)
