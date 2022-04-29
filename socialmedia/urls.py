@@ -21,5 +21,6 @@ urlpatterns = [
     path('',views.home),
     path("create_user",views.create_user),
     path("add_post",views.add_post),
+    path("show_posts",views.show_posts),
     path("sign_in",views.signIn),
 ]
