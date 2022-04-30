@@ -4,17 +4,22 @@
     <form onsubmit="create_post" method="POST" enctype="multipart/form-data">
 
         {% csrf_token %}
-        <div class="container text-center mt-5 pt-5" >
+        <div class="text-center mt-5 pt-5" >
             <div>
                 <input type="text" name="title" placeholder="title" required>
             </div>
+            <br>
+            <br>
             <div>
                 <input type="file" name="poster" required>
-            </div>
+            </div><br>
+            <br>
             <div>
                 <input type="text" name="description" placeholder="description" required>
             </div>
-            <button type="submit">Submit</button>
+            <br>
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 {% include "partials/footer.html" %}
