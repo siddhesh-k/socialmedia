@@ -1,12 +1,13 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import User,Posts,Tag
-
+from django.contrib.auth.decorators import login_required,user_passes_test
 # Create your views here.
 def home(request):
     return render(request,'home.html')
 
 def signIn(request):
-    return render(request,'sign_in.html')
+    return render(request,'sign_up.html')
 
 
 def create_user(request):
@@ -56,9 +57,32 @@ def add_post(request):
         return redirect('/')
     return render(request,'add_post.html')
 
-
+@login_required(login_url="sign_up")
 def show_posts(request):
     posts = Posts.objects.all().order_by('-created_at')
     print(posts[0].poster)
     context ={"posts":posts}
     return  render(request,'show_posts.html', context)
+
+def log_in(request):
+    if request.method == "POST":
+        username= request.POST["username"]
+        password = request.POST["password"]
+        user = User.objects.all().filter(username=username)
+
+        if user:
+            if user[0].password == password:
+                request.session["username"]=username
+                request.session['isLoggedIn']=True
+                return HttpResponseRedirect('/show_posts')
+            else:
+                return render(request,'log_in.html', {"error":"Invalid password"})
+        else:
+            return render(request, 'log_in.html', {"error": "Username Invalid"})
+    else:
+        return render(request,"log_in.html")
+
+def log_out(request):
+    request.session["isLoggedIn"] = False
+    request.session['username']=""
+    return HttpResponseRedirect('/show_posts')
