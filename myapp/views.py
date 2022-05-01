@@ -24,12 +24,12 @@ def create_user(request):
 def add_post(request):
 
     if request.method == "POST":
-        print(request.FILES)
+        username = request.session['username']
         title = request.POST['title']
         poster = request.FILES['poster']
         description = request.POST['description']
         try:
-            user= User.objects.get(pk=1)
+            user= User.objects.get(username=username)
             obj = Posts.objects.create(title=title, description=description,poster=poster,created_by=user)
             # obj.tags.set([tags])
             obj.save()
