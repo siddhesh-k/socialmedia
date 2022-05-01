@@ -1,6 +1,16 @@
 {% load static %}
 {% include "partials/header.html" %}
 
+
+    <div class="container" style="text-align:center">
+
+        <h1>{{ userinfo.username }}</h1>
+        <img src="{% static userdetail.profile_picture %} " style="height:40%; width:40%;">
+        <div>
+            <h2>{{ userinfo.first_name }} {{ userinfo.last_name}}</h2>
+        </div>
+    </div>
+
      <div class="container">
             <div class="row mt-2 custom_container_post" >
                 {% for post in posts %}
