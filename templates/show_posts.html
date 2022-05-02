@@ -5,12 +5,11 @@
             <div class="row mt-2 custom_container_post" >
                 {% for post in posts %}
 
-                    <div class="card card_post m-3" >
+                    <div class="card m-3 p-1" >
                         <a href="#">
-                        <img class="card-img card-img-top mt-2" src="{% static post.poster %}">
+                        <img class="card-img  mt-2" src="{% static post.poster %}">
                         </a>
-                        <h3 class="card-title mt-2">{{ post.title }} </h3>
-                        <p class="card-text mb-3 mx3">-{{ post.description }} </p>
+                        <p class="card-text mb-3 mx3">{{ post.description }} </p>
                     </div>
                     {% endfor %}
             </div>

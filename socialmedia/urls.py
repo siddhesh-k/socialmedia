@@ -21,9 +21,11 @@ urlpatterns = [
     path('',views.home),
     path("create_user",views.create_user),
     path("add_post",views.add_post),
+    path("delete_post",views.delete_post),
     path("show_posts",views.show_posts),
     path("sign_up",views.signIn),
     path("log_in",views.log_in),
     path("log_out",views.log_out),
-    path("account",views.account),
+    path("user/account",views.account),
+    path("user/update_profile",views.update_profile),
 ]

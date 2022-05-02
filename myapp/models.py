@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 # Create your models here.
@@ -18,7 +20,7 @@ class User(models.Model):
 
 
 class Posts(models.Model):
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=20,default=uuid.uuid4,unique=True)
     description = models.CharField(max_length=100)
     poster = models.ImageField(upload_to="posts")
     tags = models.ManyToManyField(Tag)
