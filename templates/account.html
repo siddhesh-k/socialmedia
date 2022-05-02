@@ -1,30 +1,35 @@
 {% load static %}
 {% include "partials/header.html" %}
 
-
+    <div style="text-align:center">
     <div class="container" style="text-align:center">
+    <h1>My Account <a href="/user/update_profile" ><img style="height: 20px; width:20px;" src="{% static 'imgs/edit_user.png' %}" alt="Edit" title="Edit"/></a></h1>
 
-        <h1>{{ userinfo.username }}</h1>
-        <img src="{% static userdetail.profile_picture %} " style="height:40%; width:40%;">
+
+        <img src="{% static userdetail.profile_picture %} " style="height:40%; width:40%; border-radius:10em;">
         <div>
-            <h2>{{ userinfo.first_name }} {{ userinfo.last_name}}</h2>
+            <h1>{{ userinfo.username }}</h1>
         </div>
     </div>
 
-     <div class="container">
+     <div class="container" style="text-align:center;">
             <div class="row mt-2 custom_container_post" >
                 {% for post in posts %}
 
-                    <div class="card card_post m-3" >
+                    <div class="card mt-2" >
                         <a href="#">
-                        <img class="card-img card-img-top mt-2" src="{% static post.poster %}">
+                        <img class="card-img  mt-2" src="{% static post.poster %}">
                         </a>
-                        <h3 class="card-title mt-2">{{ post.title }} </h3>
-                        <p class="card-text mb-3 mx3">-{{ post.description }} </p>
+                        <p class="card-text mb-3 mx3">{{ post.description }} </p>
+                        <form action="/delete_post" method="POST">
+                            {% csrf_token %}
+                            <input name="post_details" hidden value="{{ post.id }}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
                     </div>
-                    {% endfor %}
+                {% endfor %}
             </div>
 
      </div>
-
+        </div>
 {% include "partials/footer.html" %}

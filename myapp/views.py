@@ -1,3 +1,5 @@
+import os
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import User,Posts,Tag,UserDetails
@@ -25,12 +27,12 @@ def add_post(request):
 
     if request.method == "POST":
         username = request.session['username']
-        title = request.POST['title']
+        # title = request.POST['title']
         poster = request.FILES['poster']
         description = request.POST['description']
         try:
             user= User.objects.get(username=username)
-            obj = Posts.objects.create(title=title, description=description,poster=poster,created_by=user)
+            obj = Posts.objects.create( description=description,poster=poster,created_by=user)
             # obj.tags.set([tags])
             obj.save()
         except Exception as e:
@@ -54,7 +56,7 @@ def add_post(request):
             for hashtag in hashtag_list:
                 print(hashtag)
 
-        return redirect('/')
+        return redirect('/show_posts')
     return render(request,'add_post.html')
 
 @login_required(login_url="sign_up")
@@ -92,7 +94,7 @@ def account(request):
         username= request.session["username"]
         user = User.objects.get(username=username)
         userdetails = UserDetails.objects.get(user=user)
-        print(userdetails.profile_picture)
+        # print(userdetails.profile_picture)
         posts = Posts.objects.all().filter(created_by=user.id).order_by('-created_at')
 
         context = {"posts": posts,
@@ -103,4 +105,62 @@ def account(request):
     except Exception as e:
         print(e)
         return redirect("/show_posts")
+
+def update_profile(request):
+
+        if request.method == "POST":
+            print("in post method")
+            username = request.session["username"]
+            firstname = request.POST['first_name']
+            last_name = request.POST['last_name']
+            password = request.POST['password']
+
+            mobile = request.POST['mobile']
+
+            email = request.POST['email']
+            obj = User.objects.filter(username=username).update(first_name=firstname, last_name=last_name,email=email,password=password)
+
+            user = User.objects.get(username=username)
+            obj2 = UserDetails.objects.get(user=user)
+            obj2.mobile = mobile
+            # obj2.is_active=status
+            if len(request.FILES) != 0:
+                if len(obj2.profile_picture) > 0:
+                    thisdir=os.getcwd()
+                    pic=str(obj2.profile_picture)
+
+                    os.remove(thisdir+'/static/'+pic)
+                obj2.profile_picture = request.FILES['profile_picture']
+
+            obj2.save()
+
+
+
+            print("updated")
+            return redirect('/show_posts')
+        if request.method == "GET":
+
+            username = request.session["username"]
+            user = User.objects.get(username=username)
+            userdetails = UserDetails.objects.get(user=user)
+            context = {
+                       "userinfo":user,
+                       "userdetail": userdetails
+                       }
+            return render(request, "update_profile.html", context)
+
+def delete_post(request):
+    if request.method == "POST":
+        username = request.session["username"]
+        if(username):
+            post_details = request.POST["post_details"]
+            post = Posts.objects.get(id=post_details)
+            if len(post.poster) > 0:
+                thisdir = os.getcwd()
+                pic = str(post.poster)
+                os.remove(thisdir + '/static/' + pic)
+            post.delete()
+            return redirect('/user/account')
+        else:
+            return redirect('/show_posts')
 
