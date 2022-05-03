@@ -1,5 +1,6 @@
 import os
 
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import User,Posts,Tag,UserDetails
@@ -104,6 +105,7 @@ def account(request):
         return render(request,"account.html",context)
     except Exception as e:
         print(e)
+        messages.error(request, 'Not Logged in.')
         return redirect("/show_posts")
 
 def update_profile(request):
