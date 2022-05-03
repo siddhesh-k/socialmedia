@@ -1,5 +1,6 @@
 import os
 
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import User,Posts,Tag,UserDetails
@@ -22,6 +23,8 @@ def create_user(request):
         obj = User.objects.create(username=username,first_name= firstname,last_name=last_name,password=password,email=email)
         obj.save()
         return redirect('/')
+    messages.error(request, 'Internal server error')
+    return redirect('/')
 
 def add_post(request):
 
@@ -37,6 +40,7 @@ def add_post(request):
             obj.save()
         except Exception as e:
             print(e)
+            messages.error(request, 'Failed to upload')
             return redirect('/')
         def extract_hashtags(text):
 
@@ -57,6 +61,7 @@ def add_post(request):
                 print(hashtag)
 
         return redirect('/show_posts')
+    messages.error(request, 'Not Logged in.')
     return render(request,'add_post.html')
 
 @login_required(login_url="sign_up")
@@ -82,6 +87,7 @@ def log_in(request):
         else:
             return render(request, 'log_in.html', {"error": "Username Invalid"})
     else:
+        messages.error(request, 'Internal server error')
         return render(request,"log_in.html")
 
 def log_out(request):
@@ -104,6 +110,7 @@ def account(request):
         return render(request,"account.html",context)
     except Exception as e:
         print(e)
+        messages.error(request, 'Not Logged in.')
         return redirect("/show_posts")
 
 def update_profile(request):
@@ -162,5 +169,6 @@ def delete_post(request):
             post.delete()
             return redirect('/user/account')
         else:
+            messages.error(request, 'Failed to delete')
             return redirect('/show_posts')
 
