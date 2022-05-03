@@ -14,6 +14,7 @@ def sign_up(request):
 
 
 def create_user(request):
+
     if request.method == "POST":
         username = request.POST['username']
         firstname = request.POST['first_name']
