@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 def home(request):
     return render(request,'home.html')
 
-def signIn(request):
+def sign_up(request):
     return render(request,'sign_up.html')
 
 
@@ -22,8 +22,10 @@ def create_user(request):
         email= request.POST['email']
         obj = User.objects.create(username=username,first_name= firstname,last_name=last_name,password=password,email=email)
         obj.save()
+        user = User.objects.get(username=username)
+        userdetails = UserDetails.objects.create(user=user)
+        userdetails.save()
         return redirect('/')
-    messages.error(request, 'Internal server error')
     return redirect('/')
 
 def add_post(request):
@@ -61,15 +63,14 @@ def add_post(request):
                 print(hashtag)
 
         return redirect('/show_posts')
-    messages.error(request, 'Not Logged in.')
     return render(request,'add_post.html')
 
-@login_required(login_url="sign_up")
+
 def show_posts(request):
     posts = Posts.objects.all().order_by('-created_at')
-
     context ={"posts":posts}
-    return  render(request,'show_posts.html', context)
+    return render(request,'show_posts.html', context)
+
 
 def log_in(request):
     if request.method == "POST":
@@ -87,7 +88,6 @@ def log_in(request):
         else:
             return render(request, 'log_in.html', {"error": "Username Invalid"})
     else:
-        messages.error(request, 'Internal server error')
         return render(request,"log_in.html")
 
 def log_out(request):
@@ -98,6 +98,7 @@ def log_out(request):
 def account(request):
     try:
         username= request.session["username"]
+        print(username)
         user = User.objects.get(username=username)
         userdetails = UserDetails.objects.get(user=user)
         # print(userdetails.profile_picture)
@@ -133,10 +134,11 @@ def update_profile(request):
             # obj2.is_active=status
             if len(request.FILES) != 0:
                 if len(obj2.profile_picture) > 0:
-                    thisdir=os.getcwd()
-                    pic=str(obj2.profile_picture)
+                    if(obj2.profile_picture!="imgs/usericonblue.png"):
+                        thisdir=os.getcwd()
+                        pic=str(obj2.profile_picture)
 
-                    os.remove(thisdir+'/static/'+pic)
+                        os.remove(thisdir+'/static/'+pic)
                 obj2.profile_picture = request.FILES['profile_picture']
 
             obj2.save()

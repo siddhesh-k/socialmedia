@@ -43,12 +43,12 @@ class Comments(models.Model):
 
 class UserDetails(models.Model):
     user= models.OneToOneField(User,on_delete= models.CASCADE)
-    profile_picture = models.ImageField(upload_to="profiles",null=True,blank=True)
+    profile_picture = models.ImageField(upload_to="profiles",default="imgs/usericonblue.png")
 
 
-    mobile = models.CharField(max_length=10)
-    is_active = models.BooleanField(default="true")
-    created_at = models.DateTimeField(auto_now="true")
+    mobile = models.CharField(max_length=10,null=True,blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now=True)
 
 
 
