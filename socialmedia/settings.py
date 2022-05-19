@@ -139,8 +139,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_USE_FINDERS = True
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'static')
-# django_heroku.settings(locals())
+#
 DATABASES = { 'default': dj_database_url.config(default = dj_database_url.config('postgres://fbndbsmxsdwzgy:3cbe769f746981a925c1143034f524cc7904b37e4eb24dbce6f129a7cf4f1fe5@ec2-52-212-228-71.eu-west-1.compute.amazonaws.com:5432/defut5sdo6j5vl'))}
 db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
 
+django_heroku.settings(locals())
