@@ -1,1 +1,1 @@
-web: gunicorn django_exercise.wsgi --log-file -
+web: gunicorn socialmedia.wsgi --log-file -
